@@ -3,9 +3,7 @@
 
 Mix.install([
   {:scenic, "~> 0.10"},
-  {:scenic_driver_glfw, "~> 0.10", targets: :host},
-  # no longer needed after https://github.com/boydm/scenic/pull/219 lands
-  {:font_metrics, "~> 0.3.0", override: true}
+  {:scenic_driver_glfw, "~> 0.10", targets: :host}
 ])
 
 defmodule Main do
@@ -28,7 +26,11 @@ defmodule Main do
     ]
 
     {:ok, _} = Supervisor.start_link(children, strategy: :one_for_one)
-    Process.sleep(:infinity)
+
+    # unless running from IEx, sleep idenfinitely so the GUI keeps running
+    unless IEx.started?() do
+      Process.sleep(:infinity)
+    end
   end
 end
 
