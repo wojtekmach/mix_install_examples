@@ -1,5 +1,6 @@
 Mix.install([
-  {:req, github: "wojtekmach/req", branch: "main"}
+  :req
 ])
 
-IO.inspect(Req.get!("https://api.github.com/repos/elixir-lang/elixir").body["description"])
+Req.get!("https://api.github.com/repos/elixir-lang/elixir").body["description"]
+|> IO.inspect()
