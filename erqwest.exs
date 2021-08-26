@@ -5,7 +5,7 @@ Mix.install(
 
 :ok = :erqwest.start_client(:default)
 
-:erqwest.get(:default, "https://api.github.com/repos/dlesl/erqwest", %{
+:erqwest.get(:default, "https://hex.pm/api/packages/erqwest", %{
   headers: [{"user-agent", "erqwest"}]
 })
 |> IO.inspect()
