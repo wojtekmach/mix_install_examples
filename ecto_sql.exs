@@ -1,5 +1,5 @@
 Mix.install([
-  {:ecto_sql, "~> 3.6.2"},
+  {:ecto_sql, "~> 3.7.0"},
   {:postgrex, "~> 0.15.0"}
 ])
 
