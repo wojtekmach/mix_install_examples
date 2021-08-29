@@ -30,7 +30,7 @@ Application.put_env(:live_clock, LiveClock.Endpoint,
   ]
 )
 
-defmodule SimpleWeb.ClockLive do
+defmodule LiveClock.ClockLive do
   use Phoenix.LiveView
   use Phoenix.HTML
   import Phoenix.LiveView.Helpers
@@ -79,30 +79,30 @@ defmodule SimpleWeb.ClockLive do
   end
 end
 
-defmodule SimpleWeb.LayoutView do
+defmodule LiveClock.LayoutView do
   use Phoenix.View,
     root: "templates",
-    namespace: SimpleWeb
+    namespace: LiveClock
 
   use Phoenix.HTML
-  alias MyApp.Router.Helpers, as: Routes
+  alias LiveClock.Router.Helpers, as: Routes
 end
 
-defmodule MyApp.Router do
+defmodule LiveClock.Router do
   use Phoenix.Router
   import Phoenix.LiveView.Router
 
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
-    plug(:put_root_layout, {SimpleWeb.LayoutView, :root})
+    plug(:put_root_layout, {LiveClock.LayoutView, :root})
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
   end
 
   scope "/" do
     pipe_through([:browser])
-    live("/", SimpleWeb.ClockLive)
+    live("/", LiveClock.ClockLive)
   end
 end
 
@@ -133,7 +133,7 @@ defmodule LiveClock.Endpoint do
   plug(Plug.MethodOverride)
   plug(Plug.Head)
   plug(Plug.Session, @session_options)
-  plug(MyApp.Router)
+  plug(LiveClock.Router)
 end
 
 {:ok, _pid} = LiveClock.Endpoint.start_link()
