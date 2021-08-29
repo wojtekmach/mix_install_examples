@@ -1,0 +1,15 @@
+html, body {
+    height: 100%;  
+    background-color: #bcd;
+ }
+
+#svg-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+#clock {
+    margin: 0 auto;
+    display: block;
+}
