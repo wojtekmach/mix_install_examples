@@ -124,14 +124,6 @@ defmodule LiveClock.Endpoint do
     only: ~w(assets)
   )
 
-  plug(Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
-    pass: ["*/*"],
-    json_decoder: Phoenix.json_library()
-  )
-
-  plug(Plug.MethodOverride)
-  plug(Plug.Head)
   plug(Plug.Session, @session_options)
   plug(LiveClock.Router)
 end
