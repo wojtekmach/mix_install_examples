@@ -19,7 +19,7 @@ Application.put_env(:esbuild, :default,
   env: %{"NODE_PATH" => InstallFolderTemporaryBackport.determine_build_folder(deps) <> "/deps"}
 )
 
-Application.put_env(:my_app, MyApp.Endpoint,
+Application.put_env(:live_clock, LiveClock.Endpoint,
   server: true,
   http: [ip: {127, 0, 0, 1}, port: 8081],
   secret_key_base: "vuLgz/lXn+03HJIPTHbTMeZGd16UzvFxLgThphnLdafNmlZqCSGEZJe3Hp9cRhVs",
@@ -106,12 +106,12 @@ defmodule MyApp.Router do
   end
 end
 
-defmodule MyApp.Endpoint do
-  use Phoenix.Endpoint, otp_app: :my_app
+defmodule LiveClock.Endpoint do
+  use Phoenix.Endpoint, otp_app: :live_clock
 
   @session_options [
     store: :cookie,
-    key: "_my_app_key",
+    key: "_live_clock_app_key",
     signing_salt: "AD36PbaZ"
   ]
 
@@ -136,7 +136,7 @@ defmodule MyApp.Endpoint do
   plug(MyApp.Router)
 end
 
-{:ok, _pid} = MyApp.Endpoint.start_link()
+{:ok, _pid} = LiveClock.Endpoint.start_link()
 
 unless IEx.started?() do
   Process.sleep(:infinity)
