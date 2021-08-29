@@ -124,7 +124,6 @@ defmodule LiveClock.Endpoint do
     only: ~w(assets)
   )
 
-  plug(Plug.Session, @session_options)
   plug(LiveClock.Router)
 end
 
