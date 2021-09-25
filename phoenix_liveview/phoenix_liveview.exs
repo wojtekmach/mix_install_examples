@@ -11,12 +11,10 @@ Mix.install(
   ]
 )
 
-Code.require_file("mix_install_deps_backport.exs")
-
 Application.put_env(:esbuild, :default,
   args: ~w(app.js --bundle --target=es2016 --outdir=../priv/static/assets),
   cd: Path.expand("assets", __DIR__),
-  env: %{"NODE_PATH" => InstallFolderTemporaryBackport.determine_build_folder(deps) <> "/deps"}
+  env: %{"NODE_PATH" => Path.expand(Application.app_dir(:phoenix, "../../../../deps"))}
 )
 
 Application.put_env(:live_clock, LiveClock.Endpoint,
