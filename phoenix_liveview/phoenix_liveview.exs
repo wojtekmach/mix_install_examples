@@ -1,15 +1,13 @@
 Application.put_env(:phoenix, :json_library, Jason)
 Application.put_env(:esbuild, :version, "0.12.18")
 
-Mix.install(
-  deps = [
-    {:phoenix, "~> 1.6.0"},
-    :jason,
-    :plug_cowboy,
-    {:phoenix_live_view, "~> 0.16.0"},
-    {:esbuild, "~> 0.2"}
-  ]
-)
+Mix.install([
+  {:phoenix, "~> 1.6.0"},
+  :jason,
+  :plug_cowboy,
+  {:phoenix_live_view, "~> 0.16.0"},
+  {:esbuild, "~> 0.3.0"}
+])
 
 Application.put_env(:esbuild, :default,
   args: ~w(app.js --bundle --target=es2016 --outdir=../priv/static/assets),
@@ -128,6 +126,4 @@ end
 
 {:ok, _pid} = LiveClock.Endpoint.start_link()
 
-unless IEx.started?() do
-  Process.sleep(:infinity)
-end
+unless IEx.started?(), do: Process.sleep(:infinity)
