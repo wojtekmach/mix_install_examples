@@ -3,7 +3,7 @@ Application.put_env(:esbuild, :version, "0.12.18")
 
 Mix.install(
   deps = [
-    {:phoenix, "~> 1.6.0-rc.0", override: true},
+    {:phoenix, "~> 1.6.0"},
     :jason,
     :plug_cowboy,
     {:phoenix_live_view, "~> 0.16.0"},
