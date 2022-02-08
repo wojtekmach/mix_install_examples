@@ -5,7 +5,7 @@ Mix.install(
   elixir: "~> 1.13"
 )
 
-{:module, _, foo, _} =
+{:module, module, beam, _} =
   defmodule Foo do
     @moduledoc """
     A module.
@@ -20,7 +20,10 @@ Mix.install(
 
 # begin private APIs!
 
-File.write!("tmp/ex_doc/_build/shared/lib/example/ebin/Elixir.Foo.beam", foo)
+tmp_dir = Path.join(System.tmp_dir!(), "ex_doc")
+beam_path = "#{tmp_dir}/_build/shared/lib/example/ebin/#{module}.beam"
+File.mkdir_p!(Path.dirname(beam_path))
+File.write!(beam_path, beam)
 
 Hex.start()
 
@@ -35,9 +38,9 @@ config = [
   version: "1.0.0",
   build_embedded: false,
   build_per_environment: false,
-  build_path: "tmp/ex_doc/_build",
-  lockfile: "tmp/ex_doc/mix.lock",
-  deps_path: "tmp/ex_doc/deps",
+  build_path: "#{tmp_dir}/_build",
+  lockfile: "#{tmp_dir}/mix.lock",
+  deps_path: "#{tmp_dir}/deps",
   erlc_paths: [],
   elixirc_paths: [],
   consolidate_protocols: false
@@ -47,4 +50,4 @@ Mix.ProjectStack.push(Example.MixProject, config, __ENV__.file)
 
 # end private APIs!
 
-Mix.Task.run("docs", ~w(--formatter html --main Foo --output tmp/ex_doc/doc --open))
+Mix.Task.run("docs", ~w(--formatter html --main Foo --output #{tmp_dir}/doc --open))
