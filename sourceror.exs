@@ -1,5 +1,6 @@
 # Example of Code Mod
-# Changes
+#
+# Changes:
 #
 #     |> (fn ... end().()
 #
