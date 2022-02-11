@@ -1,12 +1,18 @@
 # Example of Code Mod
-# changes `|> (fn -> end().()` into `|> then(fn -end)
+# Changes
+#
+#     |> (fn ... end().()
+#
+# into:
+#
+#     |> then(fn ... end)
 
 Mix.install([
   {:sourceror, "~> 0.9"}
 ])
 
 source = """
-foo
+42
 |> (fn i -> i * 2 end).()
 """
 
