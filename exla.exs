@@ -6,10 +6,11 @@ Mix.install([
 defmodule Foo do
   import Nx.Defn
 
-  @defn_compiler EXLA
   defn softmax(tensor) do
     Nx.exp(tensor) / Nx.sum(Nx.exp(tensor))
   end
 end
+
+Nx.Defn.default_options(compiler: EXLA)
 
 IO.inspect(Foo.softmax(Nx.tensor([[1, 2], [3, 4]])))
