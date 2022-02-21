@@ -42,4 +42,8 @@ defmodule Main do
 end
 
 Main.main()
-Process.sleep(:infinity)
+
+# Unless running from IEx, sleep indefinitely so stages keep running
+unless IEx.started?() do
+  Process.sleep(:infinity)
+end
