@@ -2,8 +2,8 @@ Mix.install([
   {:brotli, "~> 0.3.0"}
 ])
 
-{:ok, encoded} = :brotli.encode(["foo", ["bar", ["baz", "qux"]]])
+{:ok, encoded} = :brotli.encode(["foo", ["bar"]])
 {:ok, decoded} = :brotli.decode(encoded)
-"foobarbazqux" = decoded
+"foobar" = decoded
 
 IO.inspect(encoded: encoded, decoded: decoded)
