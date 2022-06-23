@@ -32,4 +32,4 @@ Mix.install([{:exshome, "0.1.4"}])
 
 Exshome.Release.migrate()
 Application.ensure_all_started(:exshome)
-Process.sleep(:infinity)
+System.no_halt(true)
