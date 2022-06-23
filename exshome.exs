@@ -1,4 +1,4 @@
-root_folder = "HOME" |> System.get_env() |> Path.join(".exshome")
+root_folder = Path.join(System.tmp_dir(), ".exshome")
 
 Application.put_all_env(
   exshome: [
