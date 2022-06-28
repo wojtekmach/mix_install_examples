@@ -3,8 +3,13 @@ root_folder = Path.join(System.tmp_dir(), ".exshome")
 Application.put_all_env(
   exshome: [
     {:ecto_repos, [Exshome.Repo]},
+    {:on_stop, fn _ -> System.halt(1) end},
     {:root_folder, root_folder},
-    {Exshome.App, [ExshomeClock, ExshomePlayer]},
+    {Exshome.Application,
+     [
+       apps: [ExshomeClock],
+       on_init: &Exshome.Release.migrate/0
+     ]},
     {ExshomeWeb.Endpoint,
      [
        cache_static_manifest: {:exshome, "priv/static/cache_manifest.json"},
@@ -28,8 +33,7 @@ Application.put_all_env(
 
 Calendar.put_time_zone_database(Tz.TimeZoneDatabase)
 
-Mix.install([{:exshome, "0.1.4"}])
-
-Exshome.Release.migrate()
-Application.ensure_all_started(:exshome)
 System.no_halt(true)
+Mix.install([{:exshome, "0.1.7"}])
+
+{:ok, _} = Application.ensure_all_started(:exshome)
