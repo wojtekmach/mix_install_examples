@@ -33,7 +33,7 @@ Application.put_all_env(
 
 Calendar.put_time_zone_database(Tz.TimeZoneDatabase)
 
-System.no_halt(true)
 Mix.install([{:exshome, "0.1.7"}])
 
 {:ok, _} = Application.ensure_all_started(:exshome)
+System.no_halt(true)

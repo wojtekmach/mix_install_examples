@@ -45,4 +45,4 @@ defmodule SamplePhoenix.Endpoint do
 end
 
 {:ok, _} = Supervisor.start_link([SamplePhoenix.Endpoint], strategy: :one_for_one)
-Process.sleep(:infinity)
+System.no_halt(true)

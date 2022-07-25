@@ -26,11 +26,6 @@ defmodule Main do
     ]
 
     {:ok, _} = Supervisor.start_link(children, strategy: :one_for_one)
-
-    # unless running from IEx, sleep idenfinitely so the GUI keeps running
-    unless IEx.started?() do
-      Process.sleep(:infinity)
-    end
   end
 end
 
@@ -74,3 +69,4 @@ defmodule Example.Scene.Home do
 end
 
 Main.main()
+System.no_halt(true)
