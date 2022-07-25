@@ -1,12 +1,22 @@
 Mix.install([:ratatouille])
 
-# Selector
-#
-# Basic option chooser using Elixir and Ratatouille
-# 
-# Usage:
-# 
-# $ echo "Option 1\nOption 2\nOption 3" | elixir ratatouille.exs 
+defmodule Main do
+  def main do
+    # there isn't a way to return output from the tui, so we use some global state
+    Agent.start_link(fn -> nil end, name: :capture_proc)
+
+    Ratatouille.run(RatatouilleSelector,
+      quit_events: [
+        {:key, Ratatouille.Constants.key(:ctrl_c)},
+        {:key, Ratatouille.Constants.key(:esc)}
+      ]
+    )
+
+    selection = Agent.get(:capture_proc, & &1)
+
+    IO.puts(selection)
+  end
+end
 
 defmodule RatatouilleSelector do
   @behaviour Ratatouille.App
@@ -19,10 +29,7 @@ defmodule RatatouilleSelector do
   @enter key(:enter)
 
   def init(%{window: %{height: height}}) do
-    lines =
-      IO.read(:eof)
-      |> String.trim()
-      |> String.split("\n")
+    lines = ~w(foo bar baz)
 
     %{
       lines: lines,
@@ -118,16 +125,4 @@ defmodule RatatouilleSelector do
   end
 end
 
-# there isn't a way to return output from the tui, so we use some global state 😜
-Agent.start_link(fn -> nil end, name: :capture_proc)
-
-Ratatouille.run(RatatouilleSelector,
-  quit_events: [
-    {:key, Ratatouille.Constants.key(:ctrl_c)},
-    {:key, Ratatouille.Constants.key(:esc)}
-  ]
-)
-
-selection = Agent.get(:capture_proc, & &1)
-
-IO.puts(selection)
+Main.main()
