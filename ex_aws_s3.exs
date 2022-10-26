@@ -1,5 +1,3 @@
-# This example illustrates configuring a package directly from Mix.install/2
-
 Mix.install(
   [
     {:ex_aws, "~> 2.3"},
