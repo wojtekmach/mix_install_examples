@@ -1,11 +1,9 @@
 Mix.install([:wallaby])
 
-Application.ensure_all_started(:wallaby)
-
-defmodule Scraper do
+defmodule Main do
   use Wallaby.DSL
 
-  def run do
+  def main do
     {:ok, session} = Wallaby.start_session()
 
     session
@@ -17,4 +15,4 @@ defmodule Scraper do
   end
 end
 
-Scraper.run()
+Main.main()
