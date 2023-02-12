@@ -1,5 +1,3 @@
-Application.put_env(:phoenix, :json_library, Jason)
-
 Application.put_env(:sample, SamplePhoenix.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 5001],
   server: true,
@@ -15,7 +13,7 @@ Mix.install([
 ])
 
 defmodule SamplePhoenix.ErrorView do
-  def render(_, _), do: "error"
+  def render(template, _), do: Phoenix.Controller.status_message_from_template(template)
 end
 
 defmodule SamplePhoenix.SampleLive do
