@@ -8,8 +8,8 @@ Application.put_env(:sample, SamplePhoenix.Endpoint,
 Mix.install([
   {:plug_cowboy, "~> 2.5"},
   {:jason, "~> 1.0"},
-  {:phoenix, "~> 1.7.0-rc.2", override: true},
-  {:phoenix_live_view, "~> 0.18.2"}
+  {:phoenix, "~> 1.7.1", override: true},
+  {:phoenix_live_view, "~> 0.18.17"}
 ])
 
 defmodule SamplePhoenix.ErrorView do
