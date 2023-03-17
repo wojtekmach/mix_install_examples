@@ -36,17 +36,17 @@ defmodule ChatGPTStreamer do
         },
         state
       ) do
-    message = Jason.decode!(jason_payload)
-    extract_text(message) |> IO.write()
+    jason_payload |> Jason.decode!() |> extract_text() |> IO.write()
+
     {:noreply, state}
   end
 
   def extract_text(%{"choices" => choices}) do
-    choices
-    |> Enum.map(fn %{"delta" => delta} -> delta end)
-    |> Enum.filter(fn content -> Map.has_key?(content, "content") end)
-    |> Enum.map(fn %{"content" => content} -> content end)
-    |> Enum.join()
+    for %{"delta" => delta} <- choices,
+        %{"content" => content} <- if(Map.has_key?(delta, "content"), do: [delta], else: []),
+        into: "" do
+      content
+    end
   end
 
   def extract_text(_) do
