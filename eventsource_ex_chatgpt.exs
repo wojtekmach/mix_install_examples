@@ -1,4 +1,4 @@
-# Usage: elixir chatgpt_streaming.exs openai-api-key "prompt"
+# Usage: elixir eventsource_ex_chatgpt.exs openai-api-key "prompt"
 
 Mix.install([
   {:eventsource_ex, "~> 2.0"},
