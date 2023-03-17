@@ -26,12 +26,21 @@ defmodule Router do
   plug(:dispatch)
 
   get "/" do
-    send_resp(conn, 200, """
-    Use the JavaScript console to interact using websockets
+    conn
+    |> put_resp_content_type("text/html")
+    |> send_resp(200, """
+    Output: <div id="output"></div>
 
-    sock  = new WebSocket("ws://localhost:4000/websocket")
-    sock.addEventListener("message", console.log)
-    sock.addEventListener("open", () => sock.send("ping"))
+    <script type="text/javascript">
+    output = document.getElementById("output")
+    sock = new WebSocket("ws://localhost:4000/websocket")
+    sock.addEventListener("message", (message) =>
+      output.append(message.data)
+    )
+    sock.addEventListener("open", () =>
+      setInterval(() => sock.send("ping"), 1000)
+    )
+    </script>
     """)
   end
 
