@@ -4,7 +4,13 @@ Mix.install([
   {:oban, "~> 2.8"}
 ])
 
-Application.put_env(:myapp, Repo, database: "mix_install_oban")
+Application.put_env(:myapp, Repo,
+  database: "mix_install_oban"
+  # You may need the below depending on your setup. Uncomment as neeeded.
+  # port: 5454,
+  # username: "your_username",
+  # password: "your_password"
+)
 
 defmodule Repo do
   use Ecto.Repo,
