@@ -42,11 +42,7 @@ defmodule ChatGPTStreamer do
   end
 
   def extract_text(%{"choices" => choices}) do
-    for %{"delta" => delta} <- choices,
-        %{"content" => content} <- if(Map.has_key?(delta, "content"), do: [delta], else: []),
-        into: "" do
-      content
-    end
+    for %{"delta" => %{"content" => content}} <- choices, into: "", do: content
   end
 
   def extract_text(_) do
