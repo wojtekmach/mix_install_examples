@@ -8,8 +8,8 @@ Application.put_env(:sample, SamplePhoenix.Endpoint,
 Mix.install([
   {:plug_cowboy, "~> 2.5"},
   {:jason, "~> 1.0"},
-  {:phoenix, "~> 1.7.0-rc.2", override: true},
-  {:phoenix_live_view, "~> 0.18.2"}
+  {:phoenix, "~> 1.7.1", override: true},
+  {:phoenix_live_view, "~> 0.18.17"}
 ])
 
 defmodule SamplePhoenix.ErrorView do
@@ -25,8 +25,9 @@ defmodule SamplePhoenix.SampleLive do
 
   def render("live.html", assigns) do
     ~H"""
-    <script src="https://cdn.jsdelivr.net/npm/phoenix@1.7.0-rc.2/priv/static/phoenix.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/phoenix_live_view@0.18.2/priv/static/phoenix_live_view.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phoenix@1.7.1/priv/static/phoenix.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phoenix_live_view@0.18.17/priv/static/phoenix_live_view.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
       let liveSocket = new window.LiveView.LiveSocket("/live", window.Phoenix.Socket)
       liveSocket.connect()
