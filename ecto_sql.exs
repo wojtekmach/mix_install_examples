@@ -32,6 +32,8 @@ defmodule Post do
 end
 
 defmodule Main do
+  import Ecto.Query
+
   def main do
     children = [
       Repo
@@ -42,10 +44,12 @@ defmodule Main do
 
     {:ok, _} = Supervisor.start_link(children, strategy: :one_for_one)
 
-    Ecto.Migrator.run(Repo, [{0, Migration0}], :up, all: true, log_sql: :debug)
+    Ecto.Migrator.run(Repo, [{0, Migration0}], :up, all: true, log_migrations_sql: :debug)
     Repo.insert!(%Post{title: "Hello, World!"})
 
-    IO.inspect(Repo.all(Post))
+    from(Post)
+    |> Repo.all()
+    |> IO.inspect()
   end
 end
 
