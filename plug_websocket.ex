@@ -55,10 +55,8 @@ defmodule Router do
   end
 end
 
-require Logger
 webserver = {Bandit, plug: Router, scheme: :http, options: [port: 4000]}
 {:ok, _} = Supervisor.start_link([webserver], strategy: :one_for_one)
-Logger.info("Plug now running on localhost:4000")
 
 # unless running from IEx, sleep idenfinitely so we can serve requests
 unless IEx.started?() do
