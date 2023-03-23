@@ -1,4 +1,4 @@
-Application.put_env(:sample, SamplePhoenix.Endpoint,
+Application.put_env(:sample, Example.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 5001],
   server: true,
   live_view: [signing_salt: "aaaaaaaa"],
@@ -12,11 +12,11 @@ Mix.install([
   {:phoenix_live_view, "~> 0.18.17"}
 ])
 
-defmodule SamplePhoenix.ErrorView do
+defmodule Example.ErrorView do
   def render(template, _), do: Phoenix.Controller.status_message_from_template(template)
 end
 
-defmodule SamplePhoenix.SampleLive do
+defmodule Example.HomeLive do
   use Phoenix.LiveView, layout: {__MODULE__, :live}
 
   def mount(_params, _session, socket) do
@@ -55,7 +55,7 @@ defmodule SamplePhoenix.SampleLive do
   end
 end
 
-defmodule Router do
+defmodule Example.Router do
   use Phoenix.Router
   import Phoenix.LiveView.Router
 
@@ -63,18 +63,18 @@ defmodule Router do
     plug(:accepts, ["html"])
   end
 
-  scope "/", SamplePhoenix do
+  scope "/", Example do
     pipe_through(:browser)
 
-    live("/", SampleLive, :index)
+    live("/", HomeLive, :index)
   end
 end
 
-defmodule SamplePhoenix.Endpoint do
+defmodule Example.Endpoint do
   use Phoenix.Endpoint, otp_app: :sample
   socket("/live", Phoenix.LiveView.Socket)
-  plug(Router)
+  plug(Example.Router)
 end
 
-{:ok, _} = Supervisor.start_link([SamplePhoenix.Endpoint], strategy: :one_for_one)
+{:ok, _} = Supervisor.start_link([Example.Endpoint], strategy: :one_for_one)
 Process.sleep(:infinity)
