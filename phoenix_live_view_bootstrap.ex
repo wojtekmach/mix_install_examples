@@ -8,8 +8,8 @@ Application.put_env(:example, Example.Endpoint,
 Mix.install([
   {:plug_cowboy, "~> 2.5"},
   {:jason, "~> 1.0"},
-  {:phoenix, "~> 1.7.0-rc.2", override: true},
-  {:phoenix_live_view, "~> 0.18.2"}
+  {:phoenix, "~> 1.7.2", override: true},
+  {:phoenix_live_view, "~> 0.18.18"}
 ])
 
 defmodule Example.ErrorView do
@@ -25,8 +25,8 @@ defmodule Example.ExampleLive do
 
   def render("live.html", assigns) do
     ~H"""
-    <script src="https://cdn.jsdelivr.net/npm/phoenix@1.7.0-rc.2/priv/static/phoenix.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/phoenix_live_view@0.18.2/priv/static/phoenix_live_view.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phoenix@1.7.2/priv/static/phoenix.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/phoenix_live_view@0.18.18/priv/static/phoenix_live_view.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -78,4 +78,8 @@ defmodule Example.Endpoint do
 end
 
 {:ok, _} = Supervisor.start_link([Example.Endpoint], strategy: :one_for_one)
-Process.sleep(:infinity)
+
+# unless running from IEx, sleep idenfinitely so we can serve requests
+unless IEx.started?() do
+  Process.sleep(:infinity)
+end
