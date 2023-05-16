@@ -46,7 +46,7 @@ defmodule ExampleTest do
 
   @mneme default_pattern: :last
   test "parse_ints/1 (raising assertions)" do
-    auto_assert_raise(fn -> parse_ints('1, 2, 3') end)
+    auto_assert_raise(fn -> parse_ints(~c"1, 2, 3") end)
   end
 end
 

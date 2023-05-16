@@ -14,7 +14,7 @@ end
 defmodule AgeCheck do
   use TypeCheck
 
-  @spec! user_older_than?(User.t, integer) :: boolean
+  @spec! user_older_than?(User.t(), integer) :: boolean
   def user_older_than?(user, age) do
     user.age >= age
   end
