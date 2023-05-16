@@ -2,8 +2,6 @@ Mix.install([
   {:mneme, ">= 0.0.0"}
 ])
 
-Application.put_env(:mneme, :dry_run, true)
-
 ExUnit.start(seed: 0)
 Mneme.start()
 
