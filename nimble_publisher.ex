@@ -77,7 +77,7 @@ defmodule Example.Plug do
   end
 end
 
-bandit = {Bandit, plug: Example.Plug, scheme: :http, options: [port: 4000]}
+bandit = {Bandit, plug: Example.Plug, scheme: :http, thousand_island_options: [port: 4000]}
 {:ok, _} = Supervisor.start_link([bandit], strategy: :one_for_one)
 
 # unless running from IEx, sleep idenfinitely so we can serve requests
