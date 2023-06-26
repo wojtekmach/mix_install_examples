@@ -1,6 +1,6 @@
 Mix.install(
   [:erqwest],
-  elixir: "~> 1.13-dev"
+  elixir: "~> 1.13"
 )
 
 :ok = :erqwest.start_client(:default)
