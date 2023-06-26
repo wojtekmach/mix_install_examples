@@ -1,6 +1,6 @@
 Mix.install([
-  {:ecto_sql, "~> 3.7.0"},
-  {:postgrex, "~> 0.15.0"}
+  {:ecto_sql, "~> 3.10"},
+  {:postgrex, ">= 0.0.0"}
 ])
 
 Application.put_env(:foo, Repo, database: "mix_install_examples")
@@ -32,7 +32,7 @@ defmodule Post do
 end
 
 defmodule Main do
-  import Ecto.Query
+  import Ecto.Query, warn: false
 
   def main do
     children = [
