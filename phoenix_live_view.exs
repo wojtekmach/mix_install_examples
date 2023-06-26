@@ -8,8 +8,8 @@ Application.put_env(:sample, Example.Endpoint,
 Mix.install([
   {:plug_cowboy, "~> 2.5"},
   {:jason, "~> 1.0"},
-  {:phoenix, "~> 1.7.1", override: true},
-  {:phoenix_live_view, "~> 0.18.17"}
+  {:phoenix, "~> 1.7.0"},
+  {:phoenix_live_view, "~> 0.19.0"}
 ])
 
 defmodule Example.ErrorView do
@@ -23,10 +23,13 @@ defmodule Example.HomeLive do
     {:ok, assign(socket, :count, 0)}
   end
 
+  defp phx_vsn, do: Application.spec(:phoenix, :vsn)
+  defp lv_vsn, do: Application.spec(:phoenix_live_view, :vsn)
+
   def render("live.html", assigns) do
     ~H"""
-    <script src="https://cdn.jsdelivr.net/npm/phoenix@1.7.1/priv/static/phoenix.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/phoenix_live_view@0.18.17/priv/static/phoenix_live_view.min.js"></script>
+    <script src={"https://cdn.jsdelivr.net/npm/phoenix@#{phx_vsn()}/priv/static/phoenix.min.js"}></script>
+    <script src={"https://cdn.jsdelivr.net/npm/phoenix_live_view@#{lv_vsn()}/priv/static/phoenix_live_view.min.js"}></script>
     <script>
       let liveSocket = new window.LiveView.LiveSocket("/live", window.Phoenix.Socket)
       liveSocket.connect()
