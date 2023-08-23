@@ -32,14 +32,14 @@ defmodule HelloObjC do
       [NSApp activateIgnoringOtherApps:YES];
       NSAlert *alert = [[NSAlert alloc] init];
       [alert setMessageText:@"Hello from ObjC!"];
-      [alert addButtonWithTitle:@"Ok"];
+      [alert addButtonWithTitle:@"OK"];
       [alert runModal];
       return NULL;
   }
 
   static ERL_NIF_TERM hello(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
   {
-      erl_drv_steal_main_thread((char *)"hello", &hello_thread, hello_main_loop, (void *) NULL,NULL);
+      erl_drv_steal_main_thread((char *)"hello", &hello_thread, hello_main_loop, (void *)NULL, NULL);
       erl_drv_stolen_main_thread_join(hello_thread, NULL);
       return enif_make_atom(env, "ok");
   }
