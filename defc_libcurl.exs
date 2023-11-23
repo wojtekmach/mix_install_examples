@@ -1,5 +1,5 @@
 Mix.install([
-  {:c, github: "wojtekmach/c"}
+  {:defc, github: "wojtekmach/defc"}
 ])
 
 defmodule Curl.MixProject do
@@ -20,14 +20,14 @@ defmodule Main do
 end
 
 defmodule Curl do
-  use C, compile: "-lcurl"
+  use DefC, compile: "-lcurl"
 
   # Based on https://curl.se/libcurl/c/simple.html
 
   defc(:test, 0, ~S"""
   #include <curl/curl.h>
 
-  static ERL_NIF_TERM test(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+  static ERL_NIF_TERM test_nif(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
   {
     CURL *curl;
     CURLcode res;
