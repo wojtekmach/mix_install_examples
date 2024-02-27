@@ -1,5 +1,5 @@
 Mix.install([
-  {:bandit, ">= 0.0.0"}
+  {:bandit, "~> 1.1"}
 ])
 
 defmodule Router do
@@ -17,7 +17,7 @@ defmodule Router do
   end
 end
 
-bandit = {Bandit, plug: Router, scheme: :http, options: [port: 4000]}
+bandit = {Bandit, plug: Router, scheme: :http, port: 4000}
 {:ok, _} = Supervisor.start_link([bandit], strategy: :one_for_one)
 
 # unless running from IEx, sleep idenfinitely so we can serve requests
