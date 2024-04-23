@@ -19,6 +19,11 @@ defmodule Migration0 do
       add(:title, :string)
       timestamps(type: :utc_datetime_usec)
     end
+
+    create table("comments") do
+      add(:content, :string)
+      add(:post_id, references(:posts, on_delete: :delete_all), null: false)
+    end
   end
 end
 
@@ -28,6 +33,16 @@ defmodule Post do
   schema "posts" do
     field(:title, :string)
     timestamps(type: :utc_datetime_usec)
+    has_many(:comments, Comment)
+  end
+end
+
+defmodule Comment do
+  use Ecto.Schema
+
+  schema "comments" do
+    field(:content, :string)
+    belongs_to(:post, Post)
   end
 end
 
@@ -45,9 +60,15 @@ defmodule Main do
     {:ok, _} = Supervisor.start_link(children, strategy: :one_for_one)
 
     Ecto.Migrator.run(Repo, [{0, Migration0}], :up, all: true, log_migrations_sql: :debug)
-    Repo.insert!(%Post{title: "Hello, World!"})
 
-    from(Post)
+    Repo.insert!(%Post{
+      title: "Post 1",
+      comments: [%Comment{content: "Comment 1"}, %Comment{content: "Comment 2"}]
+    })
+
+    Repo.insert!(%Post{title: "Post 2", comments: [%Comment{content: "Comment 3"}]})
+
+    from(p in Post, join: c in assoc(p, :comments))
     |> Repo.all()
     |> IO.inspect()
   end
