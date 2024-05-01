@@ -1,6 +1,9 @@
-Mix.install([
-  {:ash, "~> 3.0.0-rc"}
-], consolidate_protocols: false)
+Mix.install(
+  [
+    {:ash, "~> 3.0.0-rc"}
+  ],
+  consolidate_protocols: false
+)
 
 defmodule Accounts.Profile do
   use Ash.Resource,
