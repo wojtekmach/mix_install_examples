@@ -1,6 +1,6 @@
 Mix.install(
   [
-    {:ash, "~> 3.0.0-rc"}
+    {:ash, "~> 3.0"}
   ],
   consolidate_protocols: false
 )
@@ -26,6 +26,7 @@ defmodule Accounts do
   resources do
     resource Accounts.Profile do
       define :all_profiles, action: :read
+      define :profile_by_id, action: :read, get_by: [:id]
       define :create_profile, args: [:name], action: :create
       define :update_profile, args: [:name], action: :update
       define :delete_profile, action: :destroy
@@ -38,7 +39,7 @@ IO.puts("#{IO.ANSI.yellow()}\nAsh: With the code interface we defined on the Acc
 Accounts.create_profile!("Joe Armstrong")
 [profile] = Accounts.all_profiles!() |> IO.inspect()
 Accounts.update_profile!(profile, "José Valim")
-Accounts.all_profiles!() |> IO.inspect()
+Accounts.profile_by_id!(profile.id) |> IO.inspect()
 Accounts.destroy!(profile)
 Accounts.all_profiles!() |> IO.inspect()
 
