@@ -34,5 +34,5 @@ defmodule Schema do
   end
 end
 
-# To run a document:
-# Absinthe.run("query { posts { id } }", Schema)
+Absinthe.run("query { posts { id, title } }", Schema)
+|> IO.inspect()
