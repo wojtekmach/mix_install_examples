@@ -1,4 +1,6 @@
-Mix.install([:absinthe])
+Mix.install([
+  :absinthe
+])
 
 defmodule ContentTypes do
   use Absinthe.Schema.Notation
