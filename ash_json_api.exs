@@ -2,7 +2,7 @@ Mix.install(
   [
     {:ash, "~> 3.0"},
     {:ash_json_api, "~> 1.0"},
-    {:plug_cowboy, "~> 2.5"},
+    {:bandit, "~> 1.0"},
     {:open_api_spex, "~> 3.16"}
   ],
   consolidate_protocols: false
@@ -85,10 +85,7 @@ defmodule Router do
   end
 end
 
-plug_cowboy = {Plug.Cowboy, plug: Router, scheme: :http, port: 4000}
-require Logger
-{:ok, _} = Supervisor.start_link([plug_cowboy], strategy: :one_for_one)
-Logger.info("Server started at http://localhost:4000")
+{:ok, _} = Bandit.start_link(plug: Router, port: 4000)
 
 unless IEx.started?() do
   Process.sleep(:infinity)
