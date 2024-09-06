@@ -2,12 +2,28 @@ Mix.install([
   {:bandit, "~> 1.2"},
   {:plug, "~> 1.15"},
   {:websock_adapter, "~> 0.5.0"},
-  {:jason, "~> 1.4.0"},
+  {:jason, "~> 1.4"},
   {:ex_webrtc, "~> 0.4.1"}
 ])
 
-require Logger
 Logger.configure(level: :info)
+
+defmodule Main do
+  require Logger
+
+  def main do
+    ip = {127, 0, 0, 1}
+    port = 8829
+
+    {:ok, _pid} = Bandit.start_link(plug: Router, ip: ip, port: port)
+    Logger.info("Visit http://#{:inet.ntoa(ip)}:#{port}")
+
+    # unless running from IEx, sleep idenfinitely so we can serve requests
+    unless IEx.started?() do
+      Process.sleep(:infinity)
+    end
+  end
+end
 
 defmodule Router do
   use Plug.Router
@@ -174,10 +190,7 @@ defmodule Peer do
     :ok = PeerConnection.set_local_description(state.peer_connection, answer)
 
     answer_json = SessionDescription.to_json(answer)
-
-    msg =
-      %{"type" => "answer", "data" => answer_json}
-      |> Jason.encode!()
+    msg = Jason.encode!(%{"type" => "answer", "data" => answer_json})
 
     Logger.info("Sent SDP answer:\n#{answer_json["sdp"]}")
 
@@ -194,10 +207,7 @@ defmodule Peer do
 
   defp handle_webrtc_msg({:ice_candidate, candidate}, state) do
     candidate_json = ICECandidate.to_json(candidate)
-
-    msg =
-      %{"type" => "ice", "data" => candidate_json}
-      |> Jason.encode!()
+    msg = Jason.encode!(%{"type" => "ice", "data" => candidate_json})
 
     Logger.info("Sent ICE candidate: #{candidate_json["candidate"]}")
 
@@ -224,7 +234,6 @@ defmodule Peer do
           :ok = PeerConnection.send_pli(state.peer_connection, state.in_video_track_id, "h")
 
         _other ->
-          # do something with other RTCP packets
           :ok
       end
     end
@@ -243,16 +252,4 @@ defmodule Peer do
   end
 
   defp handle_webrtc_msg(_msg, state), do: {:ok, state}
-end
-
-ip = {127, 0, 0, 1}
-port = 8829
-
-{:ok, _pid} = Bandit.start_link(plug: Router, ip: ip, port: port)
-
-Logger.info("Visit http://#{:inet.ntoa(ip)}:#{port}")
-
-# unless running from IEx, sleep idenfinitely so we can serve requests
-unless IEx.started?() do
-  Process.sleep(:infinity)
 end
