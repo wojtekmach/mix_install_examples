@@ -253,3 +253,5 @@ defmodule Peer do
 
   defp handle_webrtc_msg(_msg, state), do: {:ok, state}
 end
+
+Main.main()
