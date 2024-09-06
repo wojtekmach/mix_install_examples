@@ -252,6 +252,7 @@ port = 8829
 
 Logger.info("Visit http://#{:inet.ntoa(ip)}:#{port}")
 
-receive do
-  :ok -> :ok
+# unless running from IEx, sleep idenfinitely so we can serve requests
+unless IEx.started?() do
+  Process.sleep(:infinity)
 end
