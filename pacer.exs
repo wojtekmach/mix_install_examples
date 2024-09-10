@@ -31,24 +31,24 @@ defmodule HexPackagesWorkflow do
 
   defmodule DownloadsTable do
     @column_length 12
+
     def build(%{req: req, phoenix: phoenix, pacer: pacer, aggregate_downloads: totals}) do
-      line_builder = fn package ->
-        Enum.reduce(~w(all recent week day), "", fn key, line ->
-          line_open = "\s#{package[key]}"
-
-          "#{line}#{String.pad_trailing(line_open, @column_length)}|"
-        end)
-      end
-
       """
               | All        | Recent     | Week       | Day        |
       -------------------------------------------------------------
-      Req     |#{line_builder.(req)}
-      Phoenix |#{line_builder.(phoenix)}
-      Pacer   |#{line_builder.(pacer)}
+      Req     |#{line(req)}
+      Phoenix |#{line(phoenix)}
+      Pacer   |#{line(pacer)}
       --------------------------------------------------------------
-      Totals  |#{line_builder.(totals)}
+      Totals  |#{line(totals)}
       """
+    end
+
+    defp line(package) do
+      for key <- ~w(all recent week day), into: "" do
+        line_open = "\s#{package[key]}"
+        String.pad_trailing(line_open, @column_length) <> "|"
+      end
     end
   end
 
