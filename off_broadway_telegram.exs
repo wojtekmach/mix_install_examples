@@ -24,14 +24,8 @@ defmodule Poller do
   end
 
   @impl Broadway
-  def handle_message(
-        _processor,
-        %Broadway.Message{
-          data: update
-        } = message,
-        _context
-      ) do
-    update
+  def handle_message(_processor, %Broadway.Message{} = message, _context) do
+    message.data
     |> IO.inspect(label: "UPDATE")
     |> EchoBot.process_message()
 
@@ -43,11 +37,13 @@ defmodule EchoBot do
   def secret_bot_token(), do: "your_bot_token"
 
   def process_message(%{"message" => %{"text" => text, "chat" => %{"id" => chat_id}}})
-      when is_binary(text),
-      do: send_response(chat_id, text)
+      when is_binary(text) do
+    send_response(chat_id, text)
+  end
 
-  def process_message(%{"message" => %{"chat" => %{"id" => chat_id}}}),
-    do: send_response(chat_id, "Huh?")
+  def process_message(%{"message" => %{"chat" => %{"id" => chat_id}}}) do
+    send_response(chat_id, "Huh?")
+  end
 
   def send_response(chat_id, text) do
     Req.post!("https://api.telegram.org/bot{token}/sendMessage",
