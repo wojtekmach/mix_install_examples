@@ -1,12 +1,14 @@
 Mix.install([
   {:ecto_sql, "~> 3.10"},
   {:postgrex, ">= 0.0.0"}
+  # {:ecto_sqlite3, "~> 0.17"}
 ])
 
 Application.put_env(:foo, Repo, database: "mix_install_examples")
 
 defmodule Repo do
   use Ecto.Repo, adapter: Ecto.Adapters.Postgres, otp_app: :foo
+  # use Ecto.Repo, adapter: Ecto.Adapters.SQLite3, otp_app: :foo
 end
 
 defmodule Migration0 do

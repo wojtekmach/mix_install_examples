@@ -1,2 +1,3 @@
 checksum-Elixir.RustlerPrecompilationExample.Native.exs
 _build
+mix_install_examples*
