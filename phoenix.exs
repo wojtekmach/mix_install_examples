@@ -1,21 +1,21 @@
-# https://gist.github.com/Gazler/b4e92e9ab7527c7e326f19856f8a974a
+# Originally based on https://gist.github.com/Gazler/b4e92e9ab7527c7e326f19856f8a974a
 
-Application.put_env(:phoenix, :json_library, Jason)
+Application.put_env(:phoenix, :json_library, JSON)
 
 Application.put_env(:sample, SamplePhoenix.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 5001],
   server: true,
+  adapter: Bandit.PhoenixAdapter,
   secret_key_base: String.duplicate("a", 64)
 )
 
 Mix.install([
-  {:plug_cowboy, "~> 2.5"},
-  {:jason, "~> 1.0"},
-  {:phoenix, "~> 1.7.0"}
+  {:bandit, "~> 1.8"},
+  {:phoenix, "~> 1.8"}
 ])
 
 defmodule SamplePhoenix.SampleController do
-  use Phoenix.Controller
+  use Phoenix.Controller, formats: [:html, :json]
 
   def index(conn, _) do
     send_resp(conn, 200, "Hello, World!")
