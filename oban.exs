@@ -1,7 +1,9 @@
+#!/usr/bin/env elixir
 Mix.install([
-  {:ecto_sql, "~> 3.6.2"},
-  {:postgrex, "~> 0.15.0"},
-  {:oban, "~> 2.8"}
+  {:ecto_sql, "~> 3.13"},
+  {:postgrex, ">= 0.0.0"},
+  {:oban, "~> 2.20"},
+  {:jason, "~> 1.0"}
 ])
 
 Application.put_env(:myapp, Repo,
@@ -18,7 +20,7 @@ defmodule Repo do
     otp_app: :myapp
 end
 
-defmodule Migration0 do
+defmodule Migration do
   use Ecto.Migration
 
   def change do
@@ -30,14 +32,14 @@ defmodule Main do
   def main do
     children = [
       Repo,
-      {Oban, repo: Repo, plugins: [Oban.Plugins.Pruner], queues: [default: 10]}
+      {Oban, repo: Repo, queues: [default: 10]}
     ]
 
     Repo.__adapter__().storage_down(Repo.config())
     Repo.__adapter__().storage_up(Repo.config())
     {:ok, _} = Supervisor.start_link(children, strategy: :one_for_one)
 
-    Ecto.Migrator.run(Repo, [{0, Migration0}], :up, all: true)
+    Ecto.Migrator.run(Repo, [{0, Migration}], :up, all: true)
 
     Oban.insert!(Worker.new(%{id: 1}))
     Oban.insert!(Worker.new(%{id: 2}))
@@ -53,7 +55,7 @@ defmodule Worker do
 
   @impl true
   def perform(%Oban.Job{}) do
-    :ok
+    dbg(:ok)
   end
 end
 
